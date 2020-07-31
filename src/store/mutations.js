@@ -11,7 +11,7 @@ export function CLEAR(state) {
     state.unreadMsgCount = 0;
 }
 
-export function SET_USER(state, {user}) {
+export function SET_USER(state, user) {
   state.user = user
 }
 export function SET_TZYLEAGUEID(state,param) {

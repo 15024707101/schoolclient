@@ -49,8 +49,8 @@
       return {
         msg: '测试小系统',
         formValue: {
-          uname: '',
-          pwd: ''
+          uname: 'rzsg',
+          pwd: '123'
         }
       }
     },
@@ -101,12 +101,8 @@ gZFeM1nDrLiLvCgygwIDAQAB
           self.loading = false
           if (response.status == 200) {
             if (response.data.retCode == 1000) {
-
-              let user = {
-                userId: response.data.results.userId,
-                userName: response.data.results.name,
-              }
-              this.$store.commit('SET_USER', user)
+              
+              this.$store.commit('SET_USER', response.data.results)
               this.$store.commit('SET_LOGINED', response.data.results)
               this.$message({
                 message: '登录成功，应跳转首页，但首页正在开发中，请耐心等待！',
