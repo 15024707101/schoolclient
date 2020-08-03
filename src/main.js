@@ -18,6 +18,39 @@ Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
 
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.length === 0) { //匹配前往的路由不存在
+    from.name ? next({
+      name: from.name
+    }) : next('/signin'); //判断此跳转路由的来源路由是否存在，存在的情况跳转到来源路由，否则跳转到404页面
+    return
+  }
+  if (to.matched.some(record => record.meta.requireLogin)) {
+    if ('userId' in store.state.loginedInfo && store.state.loginedInfo['userId']) {
+      // next()
+    } else {
+      next({
+        path: '/signin'
+      })
+      return
+    }
+  }
+  /*if (to.matched.some(record => record.meta.requireAdmin)) {
+
+    if (store.state.league.isLeagueAdmin == 1) {
+      // next()
+    } else {
+      next({
+        path: '/mine'
+      })
+      return
+    }
+  }*/
+
+  next(); //如果匹配到正确跳转
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

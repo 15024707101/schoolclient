@@ -1,8 +1,14 @@
 <template>
   <div class="hello">
+    <div class="state_boxs" style="">
+      <span class="fa fa-info-circle fa-3x float_left" style=""></span>
+      <span class="state_position" style="">当前位置:用户列表</span>
+      ------------------------------------------------------------------------------------
+      <a class="return universal_button red htmlreturn"  style="color:red" @click="go(-1)">返回上一页</a>
+    </div>
     <el-table
       :data="userList"
-      style="width: 80%">
+      style="width: 100%">
 
       <el-table-column
         label="序号"
@@ -55,10 +61,10 @@
   export default {
 
     name: 'userList',
-    created () {
+    created() {
       this.getUserList()
     },
-    data () {
+    data() {
 
       return {
         userList: [],
@@ -90,15 +96,14 @@
     },
     methods: {
 
-      formatterSex (row, column) {
+      formatterSex(row, column) {
         if (row.sex == 1) {
           return '男'
         } else {
           return '女'
         }
       },
-      getUserList () {
-        debugger
+      getUserList() {
         let param = new FormData()
         param.append('userId', this.curUser.userId)
 

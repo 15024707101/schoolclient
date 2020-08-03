@@ -101,19 +101,11 @@ gZFeM1nDrLiLvCgygwIDAQAB
           self.loading = false
           if (response.status == 200) {
             if (response.data.retCode == 1000) {
-              
+
               this.$store.commit('SET_USER', response.data.results)
               this.$store.commit('SET_LOGINED', response.data.results)
-              this.$message({
-                message: '登录成功，应跳转首页，但首页正在开发中，请耐心等待！',
-                type: 'success'
-              })
 
-              this.jump('/userlist')
-              /*
-               if (isadmin) {
-                 this.jump('/center/')
-               }*/
+              this.jump('/center/userlist')
 
             } else {
               this.$message({
