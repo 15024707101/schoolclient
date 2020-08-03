@@ -2,12 +2,12 @@
   <div class="hello">
     <div class="state_boxs" style="">
       <span class="fa fa-info-circle fa-3x float_left" style=""></span>
-      <span class="state_position" style="">当前位置:用户列表</span>
+      <span class="state_position" style="">当前位置:班级列表</span>
       ------------------------------------------------------------------------------------
-      <a class="return universal_button red htmlreturn"  style="color:red" @click="go(-1)">返回上一页</a>
+      <a class="return universal_button red htmlreturn" style="color:red" @click="go(-1)">返回上一页</a>
     </div>
     <el-table
-      :data="userList"
+      :data="classList"
       style="width: 100%">
 
       <el-table-column
@@ -15,38 +15,29 @@
         type=index>
       </el-table-column>
 
-
       <el-table-column
-        prop="name"
-        label="姓名"
+        prop="className"
+        label="班级名称"
         width="180">
       </el-table-column>
 
       <el-table-column
-        prop="identityCardNo"
-        label="身份证号"
+        prop="classRoom"
+        label="教室地址"
         width="180">
       </el-table-column>
 
       <el-table-column
-        prop="mobile"
-        label="电话">
-      </el-table-column>
-
-      <el-table-column
-        prop="sex"
-        label="性别"
-        :formatter="formatterSex"
-      >
-      </el-table-column>
-
-      <el-table-column
-        prop="age"
-        label="年龄">
+        prop="classNum"
+        label="班级人数">
       </el-table-column>
       <el-table-column
-        prop="createTime"
-        label="创建时间"
+        prop="classTeacher"
+        label="代课老师">
+      </el-table-column>
+      <el-table-column
+        prop="classregulator"
+        label="班主任"
         width="180">
       </el-table-column>
 
@@ -60,14 +51,29 @@
 
   export default {
 
-    name: 'userList',
+    name: 'classList',
     created() {
-      this.getUserList()
+      this.getClassList()
     },
     data() {
 
       return {
-        userList: [],
+        classList: [
+          {
+            className: 'c18855班',
+            classRoom: '上海市普陀区金沙江路 1518 弄',
+            classNum: '57',
+            classTeacher: '马小玲',
+            classregulator: '高旺明'
+          },
+          {
+            className: 'c18854班',
+            classRoom: '上海市普陀区金沙江路 1518 弄',
+            classNum: '48',
+            classTeacher: '王小虎',
+            classregulator: '张年旺'
+          },
+        ],
 
       }
     },
@@ -79,22 +85,16 @@
     },
     methods: {
 
-      formatterSex(row, column) {
-        if (row.sex == 1) {
-          return '男'
-        } else {
-          return '女'
-        }
-      },
-      getUserList() {
+
+      getClassList() {
         let param = new FormData()
         param.append('userId', this.curUser.userId)
 
-        this.PF('center/userList', param, {}).then((response) => {
+        this.PF('center/classList', param, {}).then((response) => {
           self.loading = false
           if (response.status == 200) {
             if (response.data.retCode == 1000) {
-              this.userList = response.data.results
+              this.classList = response.data.results
               this.$message({
                 message: '返回列表成功！',
                 type: 'success'

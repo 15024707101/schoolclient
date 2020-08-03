@@ -9,34 +9,32 @@
           <span class="block" v-html="curLeagueName"></span>
         </div>
         <el-menu
+          mode="horizontal"
           id="side-menu"
           default-active="$route.path"
-          class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
           text-color="#ffffff"
           active-text-color="#182148"
           background-color="#fd6331"
           unique-opened
+          @select="selectEventHandler"
           router>
 
-          <el-menu-item index="/center/userlist">
+          <el-menu-item index="/center/userlist" class="menu-item sidebar-collapse">
 
             <i class="el-icon-menu"></i>
-            <span>用户列表</span>
+            <span class="nav-label" style="font-size:14px">用户列表</span>
 
           </el-menu-item>
 
           <el-submenu index="1" class="menu-item sidebar-collapse">
 
             <template slot="title" class="sub-submenu">
-              <i class="fa fa-sitemap  icored"></i>
               <span class="nav-label" style="font-size:14px">用户管理</span>
             </template>
-            <el-menu-item index="#">
+            <el-menu-item index="/center/userlist">
               用户列表
             </el-menu-item>
-            <el-menu-item index="#">
+            <el-menu-item index="/center/userlist">
               添加人员
             </el-menu-item>
           </el-submenu>
@@ -47,14 +45,13 @@
               <i class="fa fa-sitemap  icored"></i>
               <span class="nav-label" style="font-size:14px">班级管理</span>
             </template>
-            <el-menu-item index="/center/manage/orgmanagetw">
+            <el-menu-item index="/center/classlist">
               班级列表
             </el-menu-item>
             <el-menu-item index="/center/manage/orgmanagetw">
               添加班级
             </el-menu-item>
           </el-submenu>
-
 
         </el-menu>
       </div>
@@ -70,21 +67,20 @@
 
 <script>
   import cons from './cons.vue'
+
   export default {
     computed: {
       iconSrc() {
 
-          return cons.img + '/img/logo.png'
+        return cons.img + '/img/logo.png'
 
       }
     },
+
     methods: {
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
+      selectEventHandler: function (index, path) {
+        this.$store.commit("CLEAR_PARAMS")
       },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      }
     }
   }
 </script>
@@ -440,7 +436,36 @@
     height: 100%;
     width: 85%;
     overflow: auto;
-    margin-left:10px;
+    margin-left: 10px;
+  }
+
+  .sub-submenu {
+    /* border-bottom: 1px solid #fc615f; */
+    /* color: white; */
+    font-weight: 400;
+    padding-left: 25px;
+    overflow: hidden;
+    width: 100%;
+    margin-left: 100px;
+  }
+  .menu-item {
+
+    width: 220px;
+    background: #e32322;
+    height: auto;
+
+    position: relative;
+    display: block;
+    border-bottom: 1px solid #fc615f;
+  }
+
+  .menu-item span {
+    color: white;
+  }
+  .nav-label {
+    float: left;
+    margin-left: 0;
+    margin-top: 4px;
   }
 
 </style>

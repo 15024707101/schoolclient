@@ -13,8 +13,12 @@ export default new Router({
       component: resolve => require(['../components/page/SignIn.vue'], resolve),
     },
     {
-      path: 'signin',
+      path: '/signin',
       component: resolve => require(['../components/page/SignIn.vue'], resolve),
+    },
+    {
+      path: '/decode',
+      component: resolve => require(['../components/page/decode.vue'], resolve),
     },
     {
       path: '/center',
@@ -27,6 +31,10 @@ export default new Router({
         {
           path: 'userlist',
           component: resolve => require(['../components/page/userList.vue'], resolve),
+        },
+        {
+          path: 'classlist',
+          component: resolve => require(['../components/page/classList.vue'], resolve),
         }
       ]
     },

@@ -13,7 +13,7 @@
             <el-input v-model="formValue.pwd" type="password" maxlength="30"></el-input>
           </el-form-item>
           <el-button type="primary" @click="register">注&nbsp;&nbsp;册</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
-          <el-button type="danger" @click="submit()" v-on:keyup.enter="submit()">登&nbsp;&nbsp;录</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <el-button type="danger" @click="submit()" >登&nbsp;&nbsp;录</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
           <a style="cursor:pointer"
              href="http://www.365yg.com/i6626998678076801539/#mid=1614444196347912" target="_blank">
             <el-button type="success">宣传片</el-button>
