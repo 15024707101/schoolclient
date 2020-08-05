@@ -50,8 +50,9 @@
   export default {
     data() {
       return {
+        loading: false,
         ruleForm: {
-          str: '',
+          str: 'T79UTuKAoP1fe77WAe955Hs50CP+hZV8IDQ6idpGhU2N4kslnNLWpT7EUIFRScq0',
           type: '1',
           key: '',
         },
@@ -81,7 +82,7 @@
           return
         }
         this.ruleForm.key = this.result.substring(0, 8)
-        this.ruleForm.type = 2
+        this.ruleForm.type = '2'
         this.ruleForm.str = ''
       },
       submit() {
@@ -111,7 +112,7 @@
         param.append('type', this.ruleForm.type)
         param.append('key', this.ruleForm.key)
         this.PF('/unlogin/decode', param, {}).then((response) => {
-          self.loading = false
+          this.loading = false
           if (response.status == 200) {
             if (response.data.retCode == 1000) {
               this.result = response.data.results
@@ -119,15 +120,12 @@
               return;
 
             } else {
-              this.$message({
-                message: response.data.retMsg,
-                type: 'error'
-              })
+              this.alretMessage(cons.errStr,response.data.retMsg)
               return
             }
           }
-        }).catch(function (error) {
-          self.loading = false
+        }).catch((error) =>  {
+          this.loading = false
           console.log(error.config)
         })
       },

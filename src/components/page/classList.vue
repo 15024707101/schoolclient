@@ -58,22 +58,8 @@
     data() {
 
       return {
-        classList: [
-          {
-            className: 'c18855班',
-            classRoom: '上海市普陀区金沙江路 1518 弄',
-            classNum: '57',
-            classTeacher: '马小玲',
-            classregulator: '高旺明'
-          },
-          {
-            className: 'c18854班',
-            classRoom: '上海市普陀区金沙江路 1518 弄',
-            classNum: '48',
-            classTeacher: '王小虎',
-            classregulator: '张年旺'
-          },
-        ],
+        classList: [],
+        loading: false,
 
       }
     },
@@ -91,25 +77,18 @@
         param.append('userId', this.curUser.userId)
 
         this.PF('center/classList', param, {}).then((response) => {
-          self.loading = false
+          this.loading = false
           if (response.status == 200) {
             if (response.data.retCode == 1000) {
               this.classList = response.data.results
-              this.$message({
-                message: '返回列表成功！',
-                type: 'success'
-              })
 
             } else {
-              this.$message({
-                message: response.data.retMsg,
-                type: 'error'
-              })
+              this.alretMessage(cons.errStr,response.data.retMsg)
               return
             }
           }
-        }).catch(function (error) {
-          self.loading = false
+        }).catch((error) =>  {
+          this.loading = false
           console.log(error.config)
         })
       }

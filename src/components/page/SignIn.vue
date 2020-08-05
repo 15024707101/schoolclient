@@ -28,6 +28,7 @@
 <script>
   import JSEncrypt from 'jsencrypt/bin/jsencrypt'
   import {mapState} from 'vuex'
+import cons  from '../cons'
 
   export default {
     name: 'SignIn',
@@ -47,10 +48,11 @@
     data () {
 
       return {
+        loading:false,
         msg: '测试小系统',
         formValue: {
           uname: 'rzsg',
-          pwd: '123'
+          pwd: '12'
         }
       }
     },
@@ -98,7 +100,7 @@ gZFeM1nDrLiLvCgygwIDAQAB
         param.append('uname', this.setMd5(this.formValue.uname))
         param.append('pwd', this.setMd5(this.formValue.pwd))
         this.PF('unlogin/signin', param, {}).then((response) => {
-          self.loading = false
+          this.loading = false
           if (response.status == 200) {
             if (response.data.retCode == 1000) {
 
@@ -108,15 +110,12 @@ gZFeM1nDrLiLvCgygwIDAQAB
               this.jump('/center/userlist')
 
             } else {
-              this.$message({
-                message: response.data.retMsg,
-                type: 'error'
-              })
+              this.alretMessage(cons.errStr,response.data.retMsg)
               return
             }
           }
-        }).catch(function (error) {
-          self.loading = false
+        }).catch((error) =>  {
+          this.loading = false
           console.log(error.config)
         })
       },

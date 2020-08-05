@@ -4,7 +4,7 @@
       <span class="fa fa-info-circle fa-3x float_left" style=""></span>
       <span class="state_position" style="">当前位置:用户列表</span>
       ------------------------------------------------------------------------------------
-      <a class="return universal_button red htmlreturn"  style="color:red" @click="go(-1)">返回上一页</a>
+      <a class="return universal_button red htmlreturn" style="color:red" @click="go(-1)">返回上一页</a>
     </div>
     <el-table
       :data="userList"
@@ -67,6 +67,7 @@
     data() {
 
       return {
+        loading: false,
         userList: [],
 
       }
@@ -91,25 +92,18 @@
         param.append('userId', this.curUser.userId)
 
         this.PF('center/userList', param, {}).then((response) => {
-          self.loading = false
+          this.loading = false
           if (response.status == 200) {
             if (response.data.retCode == 1000) {
               this.userList = response.data.results
-              this.$message({
-                message: '返回列表成功！',
-                type: 'success'
-              })
 
             } else {
-              this.$message({
-                message: response.data.retMsg,
-                type: 'error'
-              })
+              this.alretMessage(cons.errStr,response.data.retMsg)
               return
             }
           }
-        }).catch(function (error) {
-          self.loading = false
+        }).catch((error) => {
+          this.loading = false
           console.log(error.config)
         })
       }

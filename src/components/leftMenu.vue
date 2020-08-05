@@ -4,9 +4,9 @@
       <div class="left_view" flex="dir:top main:left">
         <div class="left_head" flex-box="0" flex="dir:top">
           <a href="javascript:void(0)">
-            <img alt="image" class="img-circle" style="width: 50px" :src="iconSrc"/>
+            <img alt="image" class="img-circle" style="width: 80px" :src="iconSrc"/>
           </a>
-          <span class="block" v-html="curLeagueName"></span>
+          <p class="block" v-html="curUser.name"></p>
         </div>
         <el-menu
           mode="horizontal"
@@ -54,6 +54,7 @@
           </el-submenu>
 
         </el-menu>
+        <div style="height: 400px"></div>
       </div>
     </div>
     <div class="gray-bg wrap-content">
@@ -67,12 +68,17 @@
 
 <script>
   import cons from './cons.vue'
+  import {mapState} from 'vuex'
 
   export default {
     computed: {
+      ...mapState({
+        commonparams: state => state.commonparams, // 从详情页返回
+        curUser: state => state.user
+      }),
       iconSrc() {
 
-        return cons.img + '/img/logo.png'
+        return cons.img + this.curUser.headPortrait
 
       }
     },
@@ -403,7 +409,7 @@
 
   .mainview {
     background-color: rgb(214, 214, 214);
-    min-height: 0;
+    min-height: 800px;
     width: 100%;
   }
 
@@ -418,14 +424,14 @@
   .mainview .left_main .left_view {
     width: 237px;
     height: 100%;
-    background-color: #e32322;
+    background-color: #fbd8f0;
     overflow-y: auto;
     overflow-x: hidden;
     /*min-height: 0;*/
   }
 
   .mainview .left_main .left_view .left_head {
-    background-color: #e32322;
+    background-color: #cbfbc7;
     align-items: center;
     width: 220px
   }
