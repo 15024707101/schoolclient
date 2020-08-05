@@ -2,19 +2,26 @@
   <div class="hello">
     <div class="state_boxs" style="">
       <span class="fa fa-info-circle fa-3x float_left" style=""></span>
-      <span class="state_position" style="">当前位置:用户列表</span>
+      <span class="state_position" style="">当前位置:个人登录历史列表</span>
       ------------------------------------------------------------------------------------
       <a class="return universal_button red htmlreturn" style="color:red" @click="go(-1)">返回上一页</a>
     </div>
     <el-table
-      :data="userList"
+      :data="loginHistoryList"
       style="width: 100%">
 
       <el-table-column
         label="序号"
         type=index>
       </el-table-column>
-
+<!--Id
+userId
+name
+loginTime
+loginEquipment
+loginAddress
+userAgent
+pwdLevel      -->
 
       <el-table-column
         prop="name"
@@ -23,31 +30,32 @@
       </el-table-column>
 
       <el-table-column
-        prop="identityCardNo"
-        label="身份证号"
+        prop="loginTime"
+        label="登录时间"
         width="180">
       </el-table-column>
 
       <el-table-column
-        prop="mobile"
-        label="电话">
+        prop="loginEquipment"
+        label="登录设备">
       </el-table-column>
 
       <el-table-column
-        prop="sex"
-        label="性别"
-        :formatter="formatterSex"
+        prop="pwdLevel"
+        label="密码级别"
+        :formatter="formatterPwdLevel"
       >
       </el-table-column>
 
       <el-table-column
-        prop="age"
-        label="年龄">
+        prop="loginAddress"
+        label="登录地址">
       </el-table-column>
       <el-table-column
-        prop="createTime"
-        label="创建时间"
-        width="180">
+        prop="userAgent"
+        label="AGENT"
+        show-overflow-tooltip
+        >
       </el-table-column>
 
     </el-table>
@@ -60,15 +68,15 @@
   import cons from '../cons'
   export default {
 
-    name: 'userList',
+    name: 'loginHistory',
     created() {
-      this.getUserList()
+      this.getloginHistoryList()
     },
     data() {
 
       return {
         loading: false,
-        userList: [],
+        loginHistoryList: [],
 
       }
     },
@@ -80,22 +88,31 @@
     },
     methods: {
 
-      formatterSex(row, column) {
-        if (row.sex == 1) {
-          return '男'
-        } else {
-          return '女'
+      formatterPwdLevel(row, column) {
+        if (row.pwdLevel == 0) {
+          return '安全'
+        } else if (row.pwdLevel == 1) {
+          return '相对安全'
+        }else if (row.pwdLevel == 2) {
+          return '一般'
+        }else if (row.pwdLevel == 3) {
+          return '风险高'
+        }else if (row.pwdLevel == 4) {
+          return '极度危险'
+        }else {
+          return '-'
         }
+        /*密码级别：0a安全，1 相对安全，2一般，3 风险高，4极度危险*/
       },
-      getUserList() {
+      getloginHistoryList() {
         let param = new FormData()
         param.append('userId', this.curUser.userId)
 
-        this.PF('center/userList', param, {}).then((response) => {
+        this.PF('center/loginHistoryList', param, {}).then((response) => {
           this.loading = false
           if (response.status == 200) {
             if (response.data.retCode == 1000) {
-              this.userList = response.data.results
+              this.loginHistoryList = response.data.results
 
             } else {
               this.alretMessage(cons.errStr,response.data.retMsg)

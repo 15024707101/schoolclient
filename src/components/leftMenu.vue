@@ -34,6 +34,9 @@
             <el-menu-item index="/center/userlist">
               用户列表
             </el-menu-item>
+            <el-menu-item index="/center/loginHistory">
+              个人登录历史
+            </el-menu-item>
             <el-menu-item index="/center/userlist">
               添加人员
             </el-menu-item>

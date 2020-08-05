@@ -35,6 +35,10 @@ export default new Router({
         {
           path: 'classlist',
           component: resolve => require(['../components/page/classList.vue'], resolve),
+        },
+        {
+          path: 'loginHistory',
+          component: resolve => require(['../components/page/loginHistory'], resolve),
         }
       ]
     },

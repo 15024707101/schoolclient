@@ -8,6 +8,7 @@
 </template>
 
 <script>
+  import cons from './cons'
   export default {
     data() {
       return {

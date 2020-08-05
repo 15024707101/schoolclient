@@ -13,7 +13,7 @@
             <el-input v-model="formValue.pwd" type="password" maxlength="30"></el-input>
           </el-form-item>
           <el-button type="primary" @click="register">注&nbsp;&nbsp;册</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
-          <el-button type="danger" @click="submit()" >登&nbsp;&nbsp;录</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <el-button type="danger" @click="submit()">登&nbsp;&nbsp;录</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
           <a style="cursor:pointer"
              href="http://www.365yg.com/i6626998678076801539/#mid=1614444196347912" target="_blank">
             <el-button type="success">宣传片</el-button>
@@ -28,11 +28,11 @@
 <script>
   import JSEncrypt from 'jsencrypt/bin/jsencrypt'
   import {mapState} from 'vuex'
-import cons  from '../cons'
+  import cons from '../cons'
 
   export default {
     name: 'SignIn',
-    created () {
+    created() {
       /*console.log(this.$store)
       console.log(this.$components)
       console.log(this.$router)
@@ -45,10 +45,10 @@ import cons  from '../cons'
         }
       }
     },
-    data () {
+    data() {
 
       return {
-        loading:false,
+        loading: false,
         msg: '测试小系统',
         formValue: {
           uname: 'rzsg',
@@ -63,7 +63,7 @@ import cons  from '../cons'
       }),
     },
     methods: {
-      setMd5 (value) {
+      setMd5(value) {
         let encryptor = new JSEncrypt() // 新建JSEncrypt对象
 
         let publicKey = `-----BEGIN PUBLIC KEY-----
@@ -77,7 +77,7 @@ gZFeM1nDrLiLvCgygwIDAQAB
         return encryptor.encrypt(value) // 对需要加密的数据进行加密
 
       },
-      submit () {
+      submit() {
         if (!this.formValue.uname || this.formValue.uname.length == 0) {
           this.$message({
             message: '用户名不能为空',
@@ -95,7 +95,7 @@ gZFeM1nDrLiLvCgygwIDAQAB
         this.doSubmit()
 
       },
-      doSubmit () {
+      doSubmit() {
         let param = new FormData()
         param.append('uname', this.setMd5(this.formValue.uname))
         param.append('pwd', this.setMd5(this.formValue.pwd))
@@ -110,16 +110,16 @@ gZFeM1nDrLiLvCgygwIDAQAB
               this.jump('/center/userlist')
 
             } else {
-              this.alretMessage(cons.errStr,response.data.retMsg)
+              this.alretMessage(cons.errStr, response.data.retMsg)
               return
             }
           }
-        }).catch((error) =>  {
+        }).catch((error) => {
           this.loading = false
           console.log(error.config)
         })
       },
-      register () {
+      register() {
         this.$message({
           message: '注册功能正在开发中，请耐心等待',
           type: 'warning'

@@ -48,7 +48,7 @@
 
 <script>
   import {mapState} from 'vuex'
-
+  import cons from '../cons'
   export default {
 
     name: 'classList',

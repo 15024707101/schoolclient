@@ -47,6 +47,8 @@
 </template>
 
 <script>
+  import cons from '../cons'
+
   export default {
     data() {
       return {
@@ -116,15 +118,14 @@
           if (response.status == 200) {
             if (response.data.retCode == 1000) {
               this.result = response.data.results
-              this.result = response.data.results
               return;
 
             } else {
-              this.alretMessage(cons.errStr,response.data.retMsg)
+              this.alretMessage(cons.errStr, response.data.retMsg)
               return
             }
           }
-        }).catch((error) =>  {
+        }).catch((error) => {
           this.loading = false
           console.log(error.config)
         })
