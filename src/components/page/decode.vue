@@ -35,13 +35,8 @@
       <span v-if="ruleForm.type==1">得到的结果(userId_leagueId)：</span>
       <span v-else>得到的结果:</span>
       <h3 style="color: red" v-text='result'></h3>
-      <span >当前的组织id:</span>
+      <span>当前组织的id:</span>
       <h3 style="color: darkorange" v-text='curLeagueId'></h3>
-
-      <textarea rows="3" cols="50">
-
-      </textarea>
-
 
     </div>
   </div>
@@ -61,7 +56,7 @@
           key: '',
         },
         result: '',
-        curLeagueId:'',
+        curLeagueId: '',
         options: [{
           value: '1',
           label: '1:用户id_组织id的解密'
@@ -87,7 +82,7 @@
           return
         }
         this.ruleForm.key = this.result.substring(0, 8)
-        this.curLeagueId=this.result.substring(9, 17 )
+        this.curLeagueId = this.result.substring(9, 17)
         this.ruleForm.type = '2'
         this.ruleForm.str = ''
       },
