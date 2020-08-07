@@ -21,6 +21,10 @@ export default new Router({
       component: resolve => require(['../components/page/decode.vue'], resolve),
     },
     {
+      path: '/register',
+      component: resolve => require(['../components/page/register.vue'], resolve),
+    },
+    {
       path: '/center',
       component: home,
       meta: {
