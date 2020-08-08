@@ -3,7 +3,7 @@
     <div class="left_main">
       <div class="left_view" flex="dir:top main:left">
         <div class="left_head" flex-box="0" flex="dir:top">
-          <a href="javascript:void(0)">
+          <a @click="dialogVisible=true">
             <img alt="image" class="img-circle" style="width: 80px" :src="iconSrc"/>
           </a>
           <p class="block" v-html="curUser.name"></p>
@@ -65,12 +65,14 @@
         <router-view></router-view>
       </transition>
     </div>
+    <el-dialog :visible.sync="dialogVisible" size="tiny">
+      <img width="100%" :src="iconSrc" alt="">
+    </el-dialog>
   </div>
 
 </template>
 
 <script>
-  import cons from './cons.vue'
   import {mapState} from 'vuex'
 
   export default {
@@ -81,8 +83,14 @@
       }),
       iconSrc() {
 
-        return cons.img + this.curUser.headPortrait
+        return this.curUser.headPortrait
 
+      }
+    },
+    data() {
+      return {
+        dialogImageUrl: '',
+        dialogVisible: false,
       }
     },
 
@@ -457,6 +465,7 @@
     width: 100%;
     margin-left: 100px;
   }
+
   .menu-item {
 
     width: 220px;
@@ -471,6 +480,7 @@
   .menu-item span {
     color: white;
   }
+
   .nav-label {
     float: left;
     margin-left: 0;

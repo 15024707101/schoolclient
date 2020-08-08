@@ -9,15 +9,65 @@
     <div style="width: 500px;text-align: center;margin:0 auto">
       <hr>
 
-      <el-form ref="ruleForm" :model="ruleForm" status-icon>
+      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" status-icon>
+
+        <el-form-item label="注册账号" prop="userId" label-width="80px">
+          <el-input v-model="ruleForm.userId"></el-input>
+        </el-form-item>
+        <el-form-item label="本人姓名" prop="name" label-width="80px">
+          <el-input v-model="ruleForm.name"></el-input>
+        </el-form-item>
+
+        <el-form-item label="身份证号" prop="identityCardNo" label-width="80px">
+          <el-input v-model="ruleForm.identityCardNo" maxlength="18"></el-input>
+        </el-form-item>
+        <el-form-item label="性别" prop="region">
+          <el-select v-model="ruleForm.sex" placeholder="性别">
+            <el-option
+              v-for="item in sexOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="注册身份" prop="region">
+          <el-select v-model="ruleForm.personType" placeholder="身份">
+            <el-option
+              v-for="item in personOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="班级" prop="region">
+          <el-select v-model="ruleForm.classId" placeholder="班级">
+            <el-option
+              v-for="item in classOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="手机号" prop="mobile" label-width="80px">
+          <el-input v-model="ruleForm.mobile"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="pwd" label-width="80px">
+          <el-input v-model="ruleForm.pwd" :show-password="showPassword" type="password"></el-input>
+          <span style="color: red">（不设置默认为：123）</span>
+        </el-form-item>
+        上传头像
         <div class="fill_content" style="border: 1px dashed #BBBBBB;height: auto;padding: 20px">
           <el-form-item>
             <el-upload
               name="file"
               :action="upUrl"
+              :on-preview="onPreview"
               list-type="picture-card"
               :on-success="onSuccess"
-              :on-error="onerror"
+              :on-error="onError"
               :on-remove="onremove"
               :headers="upHeaders"
               :before-upload="beforeUpload"
@@ -27,13 +77,17 @@
               :before-remove="beforeRemove">
               <i class="el-icon-plus"></i>
             </el-upload>
-            <el-dialog v-model="dialogVisible" size="tiny">
-              <img width="100%" :src="dialogImageUrl" alt="">
-            </el-dialog>
+
           </el-form-item>
         </div>
+        <input type="reset" value="重置" style="background: #35ff24;height: 40px;width: 70px;border-color: #f0f0f0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <el-button type="danger" @click="submit()">注册</el-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </el-form>
+
     </div>
+    <el-dialog :visible.sync="dialogVisible" size="tiny">
+      <img width="100%" :src="dialogImageUrl" alt="">
+    </el-dialog>
   </div>
 
 </template>
@@ -44,51 +98,119 @@
 
   export default {
     data: function () {
+      var valiIdcord = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入身份证号'));
+        } else {
+          if (value.length != 18) {
+            // this.$refs.ruleForm.validateField('checkPass');
+            callback(new Error('身份证号码必须为18位'));
+          }
+          callback();
+        }
+      };
+      var valiUserId = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入注册账号'));
+        }
+        callback();
+
+      };
+
 
       return {
         loading: false,
-
-
         dialogImageUrl: '',
         dialogVisible: false,
         upUrl: cons.u + 'unlogin/uploadImg',
-        picUuid: '',
         file: {},
-        credent: true,
         uploadedFiles: [],
         uploadedFilesSrc: [],
-        upLimit: 15,
+        upLimit: 1,
+
+
+        showPassword: true,
         ruleForm: {
-          photoList: [],
+          id: 0,
+          userId: "",
+          name: "",
+          identityCardNo: "",
+          mobile: "",
+          pwd: "",
+          age: 0,
+          personType: "",
+          headPortrait: "",
+          classId: "",
+          sex: 0,
+
         },
+
+        sexOptions: [{
+          value: 1,
+          label: '男'
+        }, {
+          value: 2,
+          label: '女'
+        }, {
+          value: 0,
+          label: '其他'
+        }
+        ],
+        personOptions: [{
+          value: 1,
+          label: '管理员'
+        }, {
+          value: 2,
+          label: '学生'
+        }, {
+          value: 3,
+          label: '讲师'
+        }, {
+          value: 0,
+          label: '其他'
+        }
+        ],
+        classOptions: [{
+          value: "1",
+          label: '甲等班'
+        }, {
+          value: "2",
+          label: '乙等班'
+        }, {
+          value: "3",
+          label: '丙等班'
+        }, {
+          value: 0,
+          label: '其他'
+        }
+        ],
+
+        rules: {
+          identityCardNo: [
+            {validator: valiIdcord, trigger: 'blur'}
+          ],
+          userId: [
+            {validator: valiUserId, trigger: 'blur'}
+          ]
+        }
+
       }
 
     },
     computed: {
       ...mapState({
         curUser: state => state.user,
-        curLeague: state => state.league,
       }),
-      joinUsers() {
-        if (this.selectedUsers.length > 0) {
-          let users = this.selectedUsers.join(",");
-          //this.ruleForm.joinUsers = users
-          return users
-        }
-        return '';
-      },
 
       upData() {
         return {
           'name': "忍者神龟",
+          'photoDir': "/headPhoto",
         }
       },
       upHeaders() {
-        let token = this.$store.state.csrftoken
         return {
-          'X-CSRF-Token': token,
-          'zhtj-Uid': this.curUser.userId,
-          'zhtj-Lid': this.curLeague.leagueId,
+          'zhtj-Uname': '1234'
         }
       },
     },
@@ -96,7 +218,6 @@
 
 
       onSuccess(res, file, fileList) {
-        debugger
         if (res.retCode != 1000) {
           this.$message({
             type: 'error',
@@ -111,8 +232,9 @@
         file.thumbnailFileId = res.results.thumbnailFileId
         file.thumbnailFileUrl = res.results.thumbnailFileUrl
         this.uploadedFilesSrc = fileList
+        this.ruleForm.headPortrait = file.url
       },
-      onerror(err, file, fileList) {
+      onError(err, file, fileList) {
         this.$message({
           type: 'error',
           message: '上传失败，' + err.retCode + ',' + err.retMsg,
@@ -154,6 +276,45 @@
         this.$message({
           type: 'error',
           message: '超出了最大上传数量',
+        })
+      },
+      onPreview(file) {
+        this.dialogImageUrl = file.url
+        this.dialogVisible = true
+      },
+
+      submit() {
+        if (this.ruleForm.userId.length == 0 || this.ruleForm.identityCardNo.length == 0 || this.ruleForm.name.length == 0) {
+          this.$message({
+            message: '必填项不能为空',
+            type: 'error'
+          })
+          return
+        }
+        this.doSubmit()
+
+      },
+      doSubmit() {
+        let param = {
+          ...this.ruleForm
+        }
+
+
+        this.PF('unlogin/register', param, {}).then((response) => {
+          this.loading = false
+          if (response.status == 200) {
+            if (response.data.retCode == 1000) {
+
+              this.jump('/signin')
+
+            } else {
+              this.alretMessage(cons.errStr, response.data.retMsg)
+              return
+            }
+          }
+        }).catch((error) => {
+          this.loading = false
+          console.log(error.config)
         })
       },
 

@@ -121,11 +121,6 @@ gZFeM1nDrLiLvCgygwIDAQAB
       },
       register() {
         this.jump('/register')
-        this.$message({
-          message: '注册功能正在开发中，请耐心等待',
-          type: 'warning'
-        })
-        return
       },
 
     }
