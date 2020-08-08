@@ -6,7 +6,7 @@
 
 
   if (!rootUrl) { // 为了不同版本的vue-cli本地测试
-    rootUrl = 'http://172.29.33.90:3334'
+    rootUrl = 'http://127.0.0.1:3334'
   }
   if (!imgPath) { // 为了不同版本的vue-cli本地测试
     imgPath = '/static'
