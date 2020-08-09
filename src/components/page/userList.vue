@@ -1,10 +1,15 @@
 <template>
   <div class="hello">
+    <component :is="currentTop"></component>
+    <component :is="currentLeft"></component>
+    >
     <div class="state_boxs" style="">
       <span class="fa fa-info-circle fa-3x float_left" style=""></span>
       <span class="state_position" style="">当前位置:用户列表</span>
       ------------------------------------------------------------------------------------
-      <a class="return universal_button red htmlreturn" style="color:red" @click="go(-1)">返回上一页</a>
+      <a class="return universal_button red htmlreturn" style="color:red" @click="go(-1)">
+        <el-button type="danger">返回上一页</el-button>
+      </a>
     </div>
     <el-table
       :data="userList"
@@ -32,6 +37,12 @@
         prop="mobile"
         label="电话">
       </el-table-column>
+      <el-table-column
+        prop="personType"
+        label="身份类型"
+        :formatter="formatterPersonType"
+      >
+      </el-table-column>
 
       <el-table-column
         prop="sex"
@@ -49,6 +60,17 @@
         label="创建时间"
         width="180">
       </el-table-column>
+      <el-table-column
+        label="操作"
+        width="300"
+      >
+        <template slot-scope="scope">
+          <el-button @click="handleClick(scope.row)" type="primary" size="small" plain>查看相册</el-button>
+          <el-button type="primary" icon="el-icon-edit" circle></el-button>
+          <el-button type="success" icon="el-icon-check" circle></el-button>
+          <el-button type="danger" icon="el-icon-delete" circle></el-button>
+        </template>
+      </el-table-column>
 
     </el-table>
 
@@ -58,6 +80,7 @@
 <script>
   import {mapState} from 'vuex'
   import cons from '../cons'
+
   export default {
 
     name: 'userList',
@@ -69,6 +92,7 @@
       return {
         loading: false,
         userList: [],
+        backgroundImage: require('../../../static/img/t7.jpg'),
 
       }
     },
@@ -87,6 +111,18 @@
           return '女'
         }
       },
+      formatterPersonType(row, column) {
+        if (row.personType == 1) {
+          return '管理员'
+        } else if (row.personType == 2) {
+          return '学生'
+        } else if (row.personType == 3) {
+          return '老师'
+        } else {
+          return '其他'
+        }
+      },
+
       getUserList() {
         let param = new FormData()
         param.append('userId', this.curUser.userId)
@@ -98,7 +134,7 @@
               this.userList = response.data.results
 
             } else {
-              this.alretMessage(cons.errStr,response.data.retMsg)
+              this.alretMessage(cons.errStr, response.data.retMsg)
               return
             }
           }

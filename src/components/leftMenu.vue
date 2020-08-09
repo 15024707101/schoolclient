@@ -4,9 +4,9 @@
       <div class="left_view" flex="dir:top main:left">
         <div class="left_head" flex-box="0" flex="dir:top">
           <a @click="dialogVisible=true">
-            <img alt="image" class="img-circle" style="width: 80px" :src="iconSrc"/>
+            <img alt="image" class="img-circle" style="width: 100px;height: 100px" :src="iconSrc"/>
           </a>
-          <p class="block" v-html="curUser.name"></p>
+          <p class="block" v-html="userName"></p>
         </div>
         <el-menu
           mode="horizontal"
@@ -56,6 +56,21 @@
             </el-menu-item>
           </el-submenu>
 
+
+          <el-submenu index="3" class="menu-item sidebar-collapse">
+
+            <template slot="title" class="sub-submenu">
+              <i class="fa fa-sitemap  icored"></i>
+              <span class="nav-label" style="font-size:14px">相册管理</span>
+            </template>
+            <el-menu-item index="/center/classlist">
+              相册列表
+            </el-menu-item>
+            <el-menu-item index="/center/manage/orgmanagetw">
+              添加相册
+            </el-menu-item>
+          </el-submenu>
+
         </el-menu>
         <div style="height: 400px"></div>
       </div>
@@ -66,7 +81,7 @@
       </transition>
     </div>
     <el-dialog :visible.sync="dialogVisible" size="tiny">
-      <img width="100%" :src="iconSrc" alt="">
+      <img width="100%" :src="dialogImageUrl" alt="">
     </el-dialog>
   </div>
 
@@ -85,11 +100,17 @@
 
         return this.curUser.headPortrait
 
+      },
+      userName(){
+        if(this.curUser.personType==1){
+          return "<span style='font-family: Arial;font-size:20px;font-weight:700;color: red;' >"+this.curUser.name+"(管理员)"+"</span>"
+        }
+        return "<span style='font-family: Arial;font-size:20px;font-weight:700;color: red;' >"+this.curUser.name+"</span>"
       }
     },
     data() {
       return {
-        dialogImageUrl: '',
+        dialogImageUrl:"http://127.0.0.1:3334/img/headPhoto/ad4fb167-ed68-455b-9ee5-882765f2fb97.jpg",
         dialogVisible: false,
       }
     },

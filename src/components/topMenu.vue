@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <div  v-bind:style="{backgroundImage:'url(' + backgroundImage + ')', backgroundRepeat:'repeat', backgroundPosition:'left top'}">
     <a href="#" @click="operationCenter">解密工具</a>
-    <el-button type="success" @click="operationCenter">解密工具</el-button>
-    <el-button type="danger" @click="signout">退出登录</el-button>
+    <el-button type="primary" @click="signout" style="float: right">退出登录</el-button>
     <el-divider></el-divider>
   </div>
 </template>
@@ -13,6 +12,7 @@
     data() {
       return {
         loading: false,
+        backgroundImage: require('../../static/img/t7.jpg'),
       }
     },
     methods: {

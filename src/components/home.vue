@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div
+    v-bind:style="{backgroundImage:'url(' + backgroundImage + ')', backgroundRepeat:'repeat', backgroundPosition:'left top'}">
     <component :is="currentTop"></component>
     <component :is="currentLeft"></component>
 
@@ -33,6 +34,7 @@
       return {
         currentLeft: 'leftMenu',
         currentTop: 'topMenu',
+        backgroundImage: require('../../static/img/t7.jpg'),
       }
     }
   }
