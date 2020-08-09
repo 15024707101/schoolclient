@@ -283,7 +283,6 @@
         this.dialogVisible = true
       },
 
-
       deleteApiImg(file) {
         let param = {
           fileId: file.fileId,
@@ -308,6 +307,7 @@
           console.log(error.config)
         })
       },
+
       submit() {
         if (this.ruleForm.userId.length == 0 || this.ruleForm.identityCardNo.length == 0 || this.ruleForm.name.length == 0) {
           this.$message({

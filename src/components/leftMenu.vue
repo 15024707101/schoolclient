@@ -63,10 +63,10 @@
               <i class="fa fa-sitemap  icored"></i>
               <span class="nav-label" style="font-size:14px">相册管理</span>
             </template>
-            <el-menu-item index="/center/classlist">
+            <el-menu-item index="/center/photoList">
               相册列表
             </el-menu-item>
-            <el-menu-item index="/center/manage/orgmanagetw">
+            <el-menu-item index="/center/appendPhoto">
               添加相册
             </el-menu-item>
           </el-submenu>
@@ -81,7 +81,7 @@
       </transition>
     </div>
     <el-dialog :visible.sync="dialogVisible" size="tiny">
-      <img width="100%" :src="dialogImageUrl" alt="">
+      <img width="100%" :src="iconSrc" alt="">
     </el-dialog>
   </div>
 
@@ -101,16 +101,21 @@
         return this.curUser.headPortrait
 
       },
-      userName(){
-        if(this.curUser.personType==1){
-          return "<span style='font-family: Arial;font-size:20px;font-weight:700;color: red;' >"+this.curUser.name+"(管理员)"+"</span>"
+      userName() {
+        let s = "<span style='font-family: Arial;font-size:16px;font-weight:500;color: red;' >"
+        if (this.curUser.personType == 1) {
+          return s + this.curUser.name + "(管理员)" + "</span>"
+        } else if (this.curUser.personType == 2) {
+          return s + this.curUser.name + "(学生)" + "</span>"
+        } else if (this.curUser.personType == 3) {
+          return s + this.curUser.name + "(教师)" + "</span>"
         }
-        return "<span style='font-family: Arial;font-size:20px;font-weight:700;color: red;' >"+this.curUser.name+"</span>"
+        return s + this.curUser.name + "</span>"
       }
     },
     data() {
       return {
-        dialogImageUrl:"http://127.0.0.1:3334/img/headPhoto/ad4fb167-ed68-455b-9ee5-882765f2fb97.jpg",
+        dialogImageUrl: "http://127.0.0.1:3334/img/headPhoto/ad4fb167-ed68-455b-9ee5-882765f2fb97.jpg",
         dialogVisible: false,
       }
     },

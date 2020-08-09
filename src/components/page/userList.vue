@@ -1,8 +1,5 @@
 <template>
   <div class="hello">
-    <component :is="currentTop"></component>
-    <component :is="currentLeft"></component>
-    >
     <div class="state_boxs" style="">
       <span class="fa fa-info-circle fa-3x float_left" style=""></span>
       <span class="state_position" style="">当前位置:用户列表</span>
@@ -65,7 +62,7 @@
         width="300"
       >
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="primary" size="small" plain>查看相册</el-button>
+          <el-button @click="openPhoto(scope.row)" type="primary" size="small" plain>查看相册</el-button>
           <el-button type="primary" icon="el-icon-edit" circle></el-button>
           <el-button type="success" icon="el-icon-check" circle></el-button>
           <el-button type="danger" icon="el-icon-delete" circle></el-button>
@@ -92,8 +89,6 @@
       return {
         loading: false,
         userList: [],
-        backgroundImage: require('../../../static/img/t7.jpg'),
-
       }
     },
     computed: {
@@ -103,6 +98,10 @@
       }),
     },
     methods: {
+
+      openPhoto(){
+        this.jump("/center/appendPhoto")
+      },
 
       formatterSex(row, column) {
         if (row.sex == 1) {

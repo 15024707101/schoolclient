@@ -43,7 +43,15 @@ export default new Router({
         {
           path: 'loginHistory',
           component: resolve => require(['../components/page/loginHistory'], resolve),
-        }
+        },
+        {
+          path: 'appendPhoto',
+          component: resolve => require(['../components/page/appendPhoto.vue'], resolve),
+        },
+        {
+          path: 'photoList',
+          component: resolve => require(['../components/page/photoList.vue'], resolve),
+        },
       ]
     },
 
