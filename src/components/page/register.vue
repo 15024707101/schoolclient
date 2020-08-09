@@ -126,7 +126,7 @@
         file: {},
         uploadedFiles: [],
         uploadedFilesSrc: [],
-        upLimit: 3,
+        upLimit: 1,
 
 
         showPassword: true,
