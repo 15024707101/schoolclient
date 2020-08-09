@@ -51,8 +51,8 @@
         loading: false,
         msg: '测试小系统',
         formValue: {
-          uname: 'rzsg',
-          pwd: '12'
+          uname: '',
+          pwd: ''
         }
       }
     },

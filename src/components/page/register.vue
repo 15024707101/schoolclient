@@ -68,7 +68,7 @@
               list-type="picture-card"
               :on-success="onSuccess"
               :on-error="onError"
-              :on-remove="onremove"
+              :on-remove="onRemove"
               :headers="upHeaders"
               :before-upload="beforeUpload"
               :data="upData"
@@ -126,7 +126,7 @@
         file: {},
         uploadedFiles: [],
         uploadedFilesSrc: [],
-        upLimit: 1,
+        upLimit: 3,
 
 
         showPassword: true,
@@ -227,10 +227,9 @@
           return false
         }
         file.fileId = res.results.fileId
-        file.url = res.results.thumbnailFileUrl
-        file.name = res.results.fileName
-        file.thumbnailFileId = res.results.thumbnailFileId
-        file.thumbnailFileUrl = res.results.thumbnailFileUrl
+        file.url = res.results.fileUrl
+        file.fileName = res.results.fileName
+        file.filePath = res.results.filePath
         this.uploadedFilesSrc = fileList
         this.ruleForm.headPortrait = file.url
       },
@@ -260,7 +259,7 @@
           return true
         }
       },
-      onremove(file, fileList) {
+      onRemove(file, fileList) {
 
         let fl = []
         fileList.forEach((v, i, a) => {
@@ -269,6 +268,7 @@
           }
         })
         this.uploadedFilesSrc = fl
+        this.deleteApiImg(file)
         console.log(this.uploadedFilesSrc)
       },
 
@@ -283,6 +283,31 @@
         this.dialogVisible = true
       },
 
+
+      deleteApiImg(file) {
+        let param = {
+          fileId: file.fileId,
+          filePath: file.filePath,
+          fileUrl: file.url,
+          filename: file.fileName,
+        }
+        this.PF('unlogin/deleteFile', param, {}).then((response) => {
+          this.loading = false
+          if (response.status == 200) {
+            if (response.data.retCode == 1000) {
+
+              this.alretMessage(cons.succStr, "零时图片删除成功")
+
+            } else {
+              this.alretMessage(cons.errStr, response.data.retMsg)
+              return
+            }
+          }
+        }).catch((error) => {
+          this.loading = false
+          console.log(error.config)
+        })
+      },
       submit() {
         if (this.ruleForm.userId.length == 0 || this.ruleForm.identityCardNo.length == 0 || this.ruleForm.name.length == 0) {
           this.$message({
