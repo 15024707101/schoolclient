@@ -36,8 +36,8 @@
       </div>
 
       <div class="imgerdiv" v-for="(item) in photoList">
-        <a @click="openPhoto(item.url)">
-          <img :src="item.url" class="imger" alt="">
+        <a @click="openPhoto(item.fileUrl)">
+          <img :src="item.fileUrl" class="imger" alt="">
         </a>
         <br>
         <div style="width: 175px;height: 40px">
@@ -69,6 +69,7 @@
         <el-form-item label="相册名称" prop="userId" label-width="80px">
           <el-input v-model="form1.albumName"></el-input>
         </el-form-item>
+        上传头像
         <el-form-item>
           <el-upload
             name="file"
@@ -88,8 +89,8 @@
           </el-upload>
 
         </el-form-item>
-        <el-button @click="submitForm1">确定</el-button>
-        <el-button @click="isCreateAlbum=false">取消</el-button>
+        <el-button @click="submitForm1" type="primary">确定</el-button>
+        <el-button @click="isCreateAlbum=false" type="danger">取消</el-button>
       </el-form>
     </el-dialog>
     <el-dialog :visible.sync="isUploadPhoto" size="tiny">
@@ -121,96 +122,8 @@
         queryUserId: "",
         loading: false,
         photoType: 1,
-        photoList: [
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-          {
-            "url": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg",
-            "fileId": "1231",
-            "createTime": "2020-08-09 17:58:54"
-          },
-
-          {
-            "url": "http://127.0.0.1:3334/img/headPhoto/ad4fb167-ed68-455b-9ee5-882765f2fb97.jpg",
-            "fileId": "1589",
-            "createTime": "2020-08-09 17:58:54"
-          }
-        ],
-        dirList: [
-          {
-            "dir": "我爱我家",
-            "photoNum": 280,
-            "cover": "http://127.0.0.1:3334/img/czf/新建相册/30256489-3418-460f-9cab-cb7f40a430e0.jpg"
-          },
-          {
-            "dir": "黎明前的黑暗",
-            "photoNum": 162,
-            "cover": "http://127.0.0.1:3334/img/czf/新建相册/2e2922c9-bee8-4147-abc2-2361b0943277.jpg"
-          },
-          {
-            "dir": "大学时光",
-            "photoNum": 25,
-            "cover": "http://127.0.0.1:3334/img/headPhoto/ad4fb167-ed68-455b-9ee5-882765f2fb97.jpg"
-          }
-        ],
+        dirList: [],
+        photoList: [],
         dialogImageUrl: "",
         dialogVisible: false,
         isCreateAlbum: false,
@@ -282,7 +195,7 @@
         param.append('userId', this.curUser.userId)
         this.photoType = 2
 
-        /*this.PF('center/photoList', param, {}).then((response) => {
+        this.PF('center/photoList', param, {}).then((response) => {
           this.loading = false
           if (response.status == 200) {
             if (response.data.retCode == 1000) {
@@ -296,7 +209,7 @@
         }).catch((error) => {
           this.loading = false
           console.log(error.config)
-        })*/
+        })
       },
       openPhoto(url) {
         this.dialogImageUrl = url
@@ -324,8 +237,8 @@
 
               this.alretMessage(cons.succStr, "相册创建成功")
               this.isCreateAlbum = false
-              this.form1.cover=""
-              this.form1.albumName=""
+              this.form1.cover = ""
+              this.form1.albumName = ""
               this.$refs['upload1'].clearFiles();
 
               this.getPhotoDirList()
