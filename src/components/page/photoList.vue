@@ -18,7 +18,7 @@
         </a>
         <br>
         <div style='width: 175px;height: 35px;margin-top: -35px; margin-right:0px;'>
-          <span style="font-size:30px;color: #edfbf8;font-weight: 500">100</span>
+          <span style="font-size:30px;color: #edfbf8;font-weight: 500">{{item.photoCount}}</span>
         </div>
         <div style="width: 175px;height: 40px">
           <span style='font-size:18px'>{{ item.albumName }}</span>
