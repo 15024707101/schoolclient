@@ -13,7 +13,7 @@
         <el-button style="float: contour" plain type="primary" @click="isCreateAlbum=true">创建相册</el-button>
       </div>
       <div class="imgerdiv" v-for="(item) in dirList">
-        <a @click="getPhotoList()">
+        <a @click="getPhotoList(item.albumName)">
           <img :src="item.cover" class="imger" alt="">
         </a>
         <br>
@@ -21,7 +21,7 @@
           <span style="font-size:30px;color: #edfbf8;font-weight: 500">100</span>
         </div>
         <div style="width: 175px;height: 40px">
-          <span style='font-size:18px'>{{ item.fileDir }}</span>
+          <span style='font-size:18px'>{{ item.albumName }}</span>
         </div>
 
       </div>
@@ -53,7 +53,7 @@
         <el-carousel-item v-for="(items, index) in photoList" :key="index">
           <div style="width: 1000px;height: 800px">
             <div style="width: 900px;height: 700px">
-              <img :src="items.url" style="width: 500px" class="headImgStyle">
+              <img :src="items.fileUrl" style="width: 500px" class="headImgStyle">
             </div>
             <div class="nickname">
               {{items.createTime}}
@@ -190,9 +190,10 @@
           console.log(error.config)
         })
       },
-      getPhotoList() {
+      getPhotoList(albumName) {
         let param = new FormData()
         param.append('userId', this.curUser.userId)
+        param.append('albumName', albumName)
         this.photoType = 2
 
         this.PF('center/photoList', param, {}).then((response) => {
