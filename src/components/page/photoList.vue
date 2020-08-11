@@ -48,7 +48,7 @@
 
     </div>
     <el-dialog :visible.sync="dialogVisible" size="tiny" class="el-dialog1">
-      <el-carousel type="card" arrow="always" :loop="false" :initial-index="1"
+      <!--<el-carousel type="card" arrow="always" :loop="false" :initial-index="1"
                    indicator-position="none" :autoplay="false">
         <el-carousel-item v-for="(items, index) in photoList" :key="index">
           <div style="width: 1000px;height: 800px">
@@ -60,7 +60,20 @@
             </div>
           </div>
         </el-carousel-item>
-      </el-carousel>
+      </el-carousel>-->
+
+      <div class="cardBanner">
+        <ul>
+          <li v-for="(item,index) in photoList" :key="index">
+            <a href="#">
+              <img :src="item.fileUrl" alt="">
+              <p>这图片的描述{{item.createTime}}</p>
+            </a>
+          </li>
+          <div class="arrow-left" @click="toggleFun(-1)">&lt;</div>
+          <div class="arrow-right" @click="toggleFun(1)">&gt;</div>
+        </ul>
+      </div>
     </el-dialog>
 
     <el-dialog :visible.sync="isCreateAlbum" size="tiny">
@@ -94,7 +107,25 @@
       </el-form>
     </el-dialog>
     <el-dialog :visible.sync="isUploadPhoto" size="tiny">
-      hhh
+      <el-upload
+        name="file"
+        ref="upload2"
+        :action="upUrl"
+        :on-preview="onPreview"
+        list-type="picture-card"
+        :on-success="onSuccess2"
+        :on-error="onError"
+        :on-remove="onRemove"
+        :before-upload="beforeUpload"
+        :data="photoUpData"
+        :limit="9" :on-exceed="handleLimit"
+        :file-list="uploadedFilesSrc2"
+        :before-remove="beforeRemove">
+        <i class="el-icon-plus"></i>
+      </el-upload>
+
+      <el-button @click="submitForm2" type="primary">完成上传</el-button>
+      <el-button @click="isUploadPhoto=false" type="danger">取消</el-button>
     </el-dialog>
 
   </div>
@@ -135,10 +166,13 @@
         },
         form2: {},
 
+        albumName: "",
+
         upUrl: cons.u + 'unlogin/appendPhoto',
         file: {},
         uploadedFiles: [],
         uploadedFilesSrc: [],
+        uploadedFilesSrc2: [],
 
 
       }
@@ -149,17 +183,18 @@
         curUser: state => state.user
       }),
 
-      upData() {
-        return {
-          'name': this.curUser.name,
-          'photoDir': this.photoDir,
-          'userId': this.curUser.userId
-        }
-      },
       converUpData() {
         return {
           'name': this.curUser.name,
           'photoDir': "/" + this.curUser.userId + "/conver",
+          'userId': this.curUser.userId
+        }
+      },
+      photoUpData() {
+        return {
+          'name': this.curUser.name,
+          'photoDir': "/" + this.curUser.userId + "/" + this.albumName,
+          'albumName': this.albumName,
           'userId': this.curUser.userId
         }
       },
@@ -168,6 +203,22 @@
       }
     },
     methods: {
+
+      //通过函数改变数据从而达到视图的改变
+      toggleFun(p){
+        this.photoList = this.photoList.map((item,index,array) => {
+          if(index===array.length-1&&p===1){
+            item = array[0]
+          }
+          else if(index===0&&p===-1){
+            item = array[array.length-1];
+          }else{
+            item = array[index+p];
+          }
+          return item;
+        })
+      },
+
       getPhotoDirList() {
 
         let param = new FormData()
@@ -191,10 +242,14 @@
         })
       },
       getPhotoList(albumName) {
+        if (!albumName) {
+          albumName = this.albumName
+        }
         let param = new FormData()
         param.append('userId', this.curUser.userId)
         param.append('albumName', albumName)
         this.photoType = 2
+        this.albumName = albumName
 
         this.PF('center/photoList', param, {}).then((response) => {
           this.loading = false
@@ -256,6 +311,14 @@
 
       },
 
+      submitForm2() {
+        this.alretMessage(cons.succStr, "照片上传成功")
+        this.isUploadPhoto = false
+        this.$refs['upload2'].clearFiles();
+
+        this.getPhotoList()
+
+      },
 
       //  上传照片相关
       onSuccess1(res, file, fileList) {
@@ -287,8 +350,7 @@
         file.url = res.results.fileUrl
         file.fileName = res.results.fileName
         file.filePath = res.results.filePath
-        this.uploadedFilesSrc = fileList
-        this.ruleForm.headPortrait = file.url
+        this.uploadedFilesSrc2 = fileList
       },
       onError(err, file, fileList) {
         this.$message({
@@ -426,6 +488,72 @@
     font-weight: 700;
     color: #e52125;
     font-size: 18px;
+  }
+
+  .el-dialog body {
+    padding: 30px 20px;
+    color: #606266;
+    font-size: 14px;
+    word-break: break-all;
+    width: 1000px;
+    height: 900px;
+  }
+
+
+
+
+/*  切换图片组件样式*/
+  .cardBanner{
+    padding: 10px 30px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    position: relative;
+  }
+  .cardBanner ul{
+    display: flex;
+    overflow: scroll;    /*设置滚动条*/
+  }
+  .cardBanner ul::-webkit-scrollbar{    /*隐藏滚动条*/
+    display: none;
+  }
+  .cardBanner ul>li{ //高能部分，flex不太好解释
+  width: 50.33333%;
+    flex-shrink: 0;
+    padding-left: 3%;
+    text-align: center;
+  }
+  .cardBanner ul>li:first-child{
+    padding-left: 0;
+  }
+  .cardBanner ul>li a{
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .cardBanner ul>li img{
+    width: 100%;
+    height: 600px;
+    border-radius: 5px;
+  }
+  .cardBanner ul>li p{
+    margin: 0;
+  }
+  [class^='arrow']{
+    font-size: 30px;
+    transform: scaleX(.7);
+    color: #ddd;
+  }
+  .arrow-left{
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    margin-top: -17px;
+  }
+  .arrow-right{
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    margin-top: -17px;
   }
 
 </style>
