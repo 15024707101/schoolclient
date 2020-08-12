@@ -66,9 +66,6 @@
             <el-menu-item index="/center/photoList">
               相册列表
             </el-menu-item>
-            <el-menu-item index="/center/appendPhoto">
-              添加相册
-            </el-menu-item>
           </el-submenu>
 
         </el-menu>

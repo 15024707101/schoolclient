@@ -62,7 +62,7 @@
         width="300"
       >
         <template slot-scope="scope">
-          <el-button @click="openPhoto(scope.row)" type="primary" size="small" plain>查看相册</el-button>
+          <el-button @click="openPhotoList(scope.row)" type="primary" size="small" plain>查看相册</el-button>
           <el-button type="primary" icon="el-icon-edit" circle></el-button>
           <el-button type="success" icon="el-icon-check" circle></el-button>
           <el-button type="danger" icon="el-icon-delete" circle></el-button>
@@ -99,8 +99,9 @@
     },
     methods: {
 
-      openPhoto(){
-        this.jump("/center/appendPhoto")
+      openPhotoList(row){
+        this.$store.commit("SET_PARAMS", {'queryUserId': row.userId})
+        this.jump("/center/photoList")
       },
 
       formatterSex(row, column) {

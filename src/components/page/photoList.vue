@@ -9,7 +9,7 @@
       </a>
     </div>
     <div v-if="photoType==1">
-      <div v-if="queryUserId = curUser.userId">
+      <div v-if="queryUserId == curUser.userId">
         <el-button style="float: contour" plain type="primary" @click="isCreateAlbum=true">创建相册</el-button>
       </div>
       <div class="imgerdiv" v-for="(item) in dirList">
@@ -30,7 +30,7 @@
     <div v-else>
       <div style="width: auto;height: 20px;">
         <el-button style="float: contour" plain type="primary" @click="isUploadPhoto=true"
-                   v-if="queryUserId = curUser.userId">上传照片
+                   v-if="queryUserId == curUser.userId">上传照片
         </el-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a class="aPhoto" @click="photoType=1">返回相册主页</a>
       </div>
@@ -132,6 +132,11 @@
       }
 
       this.getPhotoDirList()
+    },
+    beforeDestroy(){
+      if ('queryUserId' in this.commonparams){
+        this.$store.commit("CLEAR_PARAM",'queryUserId')
+      }
     },
     data() {
 
