@@ -42,9 +42,12 @@ pwdLevel      -->
 
       <el-table-column
         prop="pwdLevel"
-        label="密码级别"
-        :formatter="formatterPwdLevel"
+        label="登录状态"
       >
+        <template slot-scope="scope">
+                                                        <span class="col-cont"
+                                                              v-html="formatterPwdLevel(scope.row)"></span>
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -89,16 +92,16 @@ pwdLevel      -->
     methods: {
 
       formatterPwdLevel(row, column) {
-        if (row.pwdLevel == 0) {
-          return '安全'
+        if (row.pwdLevel == 1) {
+          return "<span style='color:#42ff2d'>" + "安全" + "</span>"
         } else if (row.pwdLevel == 1) {
-          return '相对安全'
+          return "<span style='color:#4dff95'>" + "相对安全" + "</span>"
         }else if (row.pwdLevel == 2) {
-          return '一般'
+          return "<span style='color:#feff63'>" + "一般" + "</span>"
         }else if (row.pwdLevel == 3) {
-          return '风险高'
+          return "<span style='color:#ffa036'>" + "风险高" + "</span>"
         }else if (row.pwdLevel == 4) {
-          return '极度危险'
+          return "<span style='color:#ff0f0a'>" + "极度危险" + "</span>"
         }else {
           return '-'
         }
